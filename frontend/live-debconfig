@@ -1,0 +1,201 @@
+#!/bin/sh
+
+## live-debconfig(7) - System Configuration Components
+## Copyright (C) 2006-2014 Daniel Baumann <mail@daniel-baumann.ch>
+##
+## This program is free software: you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+## GNU General Public License for more details.
+##
+## You should have received a copy of the GNU General Public License
+## along with this program. If not, see <http://www.gnu.org/licenses/>.
+##
+## The complete text of the GNU General Public License
+## can be found in /usr/share/common-licenses/GPL-3 file.
+
+
+set -e
+
+for _FILE in /etc/live/debconfig.conf /etc/live/debconfig/*
+do
+	if [ -e "${_FILE}" ]
+	then
+		. "${_FILE}"
+	fi
+done
+
+LIVE_COMPONENTS_DIRECTORY="${LIVE_COMPONENTS_DIRECTORY:-/lib/live/debconfig}"
+
+Cmdline ()
+{
+	for _PARAMETER in ${_CMDLINE}
+	do
+		case "${_PARAMETER}" in
+			--debconfig=*)
+				# Only run requested components
+				LIVE_DEBCONFIGS="${_PARAMETER#*debconfig=}"
+				;;
+
+			--debconfig)
+				# Run all components
+				_COMPONENTS="$(cd ${LIVE_COMPONENTS_DIRECTORY} && ls ????-* | grep -v '\.templates$')"
+				;;
+
+			--nodebconfig=*)
+				# Don't run requested components
+				_COMPONENTS="$(cd ${LIVE_COMPONENTS_DIRECTORY} && ls ????-* | grep -v '\.templates$')"
+				LIVE_NODEBCONFIGS="${_PARAMETER#*nodebconfig=}"
+				;;
+
+			--nodebconfig)
+				# Don't run any components
+				_COMPONENTS="nodebconfig"
+				;;
+
+			# Special options
+			--debug)
+				LIVE_DEBUG="true"
+				;;
+
+			*)
+				echo "Usage: live-debconfig"
+				echo "Usage: live-debconfig --debconfig|--debconfig=COMPONENT1,COMPONENT2,...,COMPONENTn"
+				echo "Usage: live-debconfig --nodebconfig|--nodebconfig=COMPONENT1,COMPONENT2,...,COMPONENTn"
+				echo "Usage: live-debconfig --debug"
+				exit 1
+				;;
+		esac
+	done
+
+	# Include requested components
+	if [ -n "${LIVE_DEBCONFIGS}" ]
+	then
+		for _DEBCONFIG in $(echo ${LIVE_DEBCONFIGS} | sed -e 's|,| |g')
+		do
+			_COMPONENTS="${_COMPONENTS} ${_DEBCONFIG}"
+		done
+	fi
+
+	# Exclude requested components
+	if [ -n "${LIVE_NODEBCONFIGS}" ]
+	then
+		for _NODEBCONFIG in $(echo ${LIVE_NODEBCONFIGS} | sed -e 's|,| |g')
+		do
+			_COMPONENTS="$(echo ${_COMPONENTS} | sed -e "s|${_NODEBCONFIG}||")"
+		done
+	fi
+}
+
+Setup_debconf ()
+{
+	if [ ! -e /var/lib/live/debconfig ]
+	then
+		mkdir -p /var/lib/live/debconfig
+		chmod 0700 /var/lib/live/debconfig
+	fi
+
+	if [ ! -e /var/lib/live/debconfig/systemrc ]
+	then
+
+cat > /var/lib/live/debconfig/systemrc << EOF
+Config: configdb
+Templates: templatedb
+
+Name: config
+Driver: File
+Mode: 644
+Reject-Type: password
+Filename: /var/lib/live/debconfig/config.dat
+
+Name: passwords
+Driver: File
+Mode: 600
+Backup: false
+Required: false
+Accept-Type: password
+Filename: /var/lib/live/debconfig/passwords.dat
+
+Name: configdb
+Driver: Stack
+Stack: config, passwords
+
+Name: templatedb
+Driver: File
+Mode: 644
+Filename: /var/lib/live/debconfig/templates.dat
+EOF
+
+		chmod 0600 /var/lib/live/debconfig/systemrc
+	fi
+}
+
+Main ()
+{
+	# Reading configuration files
+	for _FILE in /etc/live/debconfig.conf /etc/live/debconfig/*
+	do
+		if [ -e "${_FILE}" ]
+		then
+			. "${_FILE}"
+		fi
+	done
+
+	# Processing command line
+	_CMDLINE="${@}"
+
+	Cmdline
+
+	case "${LIVE_DEBUG}" in
+		true)
+			set -x
+			;;
+	esac
+
+	mkdir -p /var/log/live/debconfig
+
+	Setup_debconf
+
+	# Import global debconf preseed files for live-debconfig
+	for _FILE in /var/lib/live/debconfig/preseed/*
+	do
+		if [ -e "${_FILE}" ]
+		then
+			live-debconfig-set-selections "${_FILE}"
+		fi
+	done
+
+	# Show debconf components dialog
+	for _FILE in "${LIVE_COMPONENTS_DIRECTORY}"/components /lib/live/debconfig/components
+	do
+		if [ -e "${_FILE}" ]
+		then
+			"${LIVE_COMPONENTS_DIRECTORY}"/components ${_COMPONENTS}
+			break
+		fi
+	done
+
+	. /var/lib/live/debconfig/components
+	rm -f /var/lib/live/debconfig/components
+
+	# Configuring system
+	_COMPONENTS="$(echo ${_COMPONENTS} | sed -e 's| |\n|g' | sort -u)"
+
+	for _COMPONENT in ${_COMPONENTS}
+	do
+		if ls "${LIVE_COMPONENTS_DIRECTORY}"/????-${_COMPONENT} > /dev/null
+		then
+			[ "${LIVE_DEBUG}" = "true" ] && echo "[$(date +'%F %T')] live-debconfig: ${_COMPONENT}" >> /var/log/live/debconfig.log
+			"${LIVE_COMPONENTS_DIRECTORY}"/????-${_COMPONENT}
+		else
+			echo "W: ${_COMPONENT} - no such component in ${LIVE_COMPONENTS_DIRECTORY}, skipping."
+		fi
+	done
+}
+
+Main ${@}

@@ -1,0 +1,79 @@
+#!/bin/sh
+
+## live-debconfig(7) - System Configuration Components
+## Copyright (C) 2006-2014 Daniel Baumann <mail@daniel-baumann.ch>
+##
+## This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+## This is free software, and you are welcome to redistribute it
+## under certain conditions; see COPYING for details.
+
+
+set -e
+
+DEBCONF_SYSTEMRC="/var/lib/live/debconfig/systemrc"
+export DEBCONF_SYSTEMRC
+
+. /usr/share/debconf/confmodule
+
+if [ -e /selinux ]
+then
+	# squeeze
+	_SELINUXFS="/selinux"
+else
+	# wheezy and newer
+	_SELINUXFS="/sys/fs/selinux"
+fi
+
+Defaults ()
+{
+	if [ -z "${_SELINUX_ENABLE}" ]
+	then
+
+		if [ -n "$(cat ${_SELINUXFS}/enforce 2> /dev/null)" ]
+		then
+			case "$(cat ${_SELINUXFS}/enforce 2> /dev/null)" in
+				0)
+					_SELINUX_ENABLE="false"
+					;;
+
+				1)
+					_SELINUX_ENABLE="true"
+					;;
+			esac
+		else
+			_SELINUX_ENABLE="false"
+		fi
+	fi
+}
+
+db_get live-debconfig/selinux/enable
+_SELINUX_ENABLE="${RET}" # boolean
+
+Defaults
+
+db_set live-debconfig/selinux/enable "${_SELINUX_ENABLE}"
+db_fset live-debconfig/selinux/enable seen false
+
+db_settitle live-debconfig/title
+db_input high live-debconfig/selinux/enable || true
+db_go
+
+db_get live-debconfig/selinux/enable
+_SELINUX_ENABLE="${RET}" # boolean
+
+Defaults
+
+db_stop
+
+case "${_SELINUX_ENABLE}" in
+	true)
+		rm -f "${_SELINUXFS}/enforce"
+		rmdir --ignore-fail-on-non-empty "${_SELINUXFS}" > /dev/null 2>&1 || true
+		;;
+
+	false)
+		mkdir -p "${_SELINUXFS}"
+		echo 0 > "${_SELINUXFS}/enforce.tmp"
+		mv "${_SELINUXFS}/enforce.tmp" "${_SELINUXFS}/enforce"
+		;;
+esac

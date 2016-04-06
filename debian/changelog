@@ -1,0 +1,444 @@
+live-debconfig (4.0~alpha35-1) unstable; urgency=low
+
+  * Adding component to configure cron for LXC required for jessie.
+  * Renumbering components.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 22 Jul 2014 11:23:21 +0200
+
+live-debconfig (4.0~alpha34-1) unstable; urgency=low
+
+  * Adding component to configure login for LXC required for jessie.
+  * Also recreating ed25519 hostkeys in openssh-server component.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 22 Jul 2014 09:05:23 +0200
+
+live-debconfig (4.0~alpha33-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Updating preseed file for 4.0~alpha32-1.
+
+  [ Carlos Zuferri ]
+  * Adding .po integrity check target to manpages/Makefile.
+  * Adding '--package-version' to po4a options.
+
+  [ Nik Lutz ]
+  * Replacing 'systemctl mask' with 'ln -sf /dev/null' because newer
+    versions of systemd (jessie/wheezy-backports) require systemd to be
+    running to perform 'mask'.
+  * Adding sys-fs-fuse-connections.mount to list of services to be
+    disabled in a container running systemd.
+  * Disable CapabilityBoundingSet for systemd-logind in containers running
+    systemd else logind fails to start.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 18 Jul 2014 10:17:16 +0200
+
+live-debconfig (4.0~alpha32-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Updating preseed example for 4.0~alpha31-1.
+  * Updating copyright notices for 2014.
+
+  [ chals ]
+  * Using proper flying middle dot in the Catalan translation.
+  * Updating dates in several manpages.
+
+  [ Daniel Baumann ]
+  * Building with dh --parallel.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 31 Mar 2014 22:10:54 +0200
+
+live-debconfig (4.0~alpha31-1) unstable; urgency=low
+
+  [ chals ]
+  * Adding missing newlines in several strings of German live-
+    debconfig_hostname manpages, thanks to victory
+    <victory.deb@gmail.com>.
+  * Updating dates in manpages.
+  * Unfuzzying dates in the translation files of the manpages.
+  * Removing obsolete flag '--no-backups' from po4a options.
+
+  [ Daniel Baumann ]
+  * Adding support for LXC in openssh-server component for openssh 6.2p2-2
+    and newer.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 29 Nov 2013 13:58:43 +0100
+
+live-debconfig (4.0~alpha30-1) unstable; urgency=low
+
+  * Adding support for customizable components directory in
+    /etc/live/debconfig.conf and /etc/live/debconfig/*.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 11 Nov 2013 16:10:28 +0100
+
+live-debconfig (4.0~alpha29-1) unstable; urgency=low
+
+  * Updating package descriptions.
+  * Rewrapping control file.
+  * Moving /selinux to /sys/fs/selinux to accomodate newer selinux in
+    debian.
+  * Updating to standards version 3.9.5.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 04 Nov 2013 07:57:46 +0100
+
+live-debconfig (4.0~alpha28-1) unstable; urgency=low
+
+  * Updating console numbering in systemd component to honor systems
+    behaviour of starting to count consoles at 0, not at 1 like sysvinit.
+  * Adding git component to checkout repositories.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 19 Sep 2013 20:24:35 +0200
+
+live-debconfig (4.0~a27-1) unstable; urgency=low
+
+  * Correcting wrong spelling of password in password component (Closes: #719471).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 12 Aug 2013 10:33:43 +0200
+
+live-debconfig (4.0~a26-1) unstable; urgency=low
+
+  * Renaming internal multiselect script to components.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 31 Jul 2013 14:25:13 +0200
+
+live-debconfig (4.0~a25-1) unstable; urgency=low
+
+  * Reorganizing frontend in source tree.
+  * Reorganizing components in source tree.
+  * Updating example packaging.
+  * Using component consistently when refering to live-debconfs executable
+    parts.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 25 Jun 2013 11:31:15 +0200
+
+live-debconfig (4.0~a24-1) unstable; urgency=low
+
+  * Correcting debconf field type for vm.swappiness in procps script.
+  * Adding dummy noop in example script to pass testsuite.
+  * Adding rsyslog script (Closes: #711170).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 05 Jun 2013 10:53:19 +0200
+
+live-debconfig (4.0~a23-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Adding procps script.
+  * Adding files section to live-debconfig manpage.
+  * Adding vm.swappiness in procfs script.
+
+  [ Nik Lutz ]
+  * Replacing 'systemctl disable' with 'systemctl mask' in the systemd
+    script.
+
+  [ Daniel Baumann ]
+  * Adding a script do make dbus work inside a container running systemd,
+    thanks to Nik Lutz <nik@netstyle.ch> for the initial work on this.
+
+  [ Nik Lutz ]
+  * Configure systemd-journald to work inside containers running systemd.
+  * Adding rescue.target to the list of services to be disabled in systemd
+    containers (minutes after boot systemd starts reporting on
+    rescue.target failures).
+
+  [ Daniel Baumann ]
+  * Importing global preseed files from /var/lib/live/debconfig/preseed,
+    if any.
+  * Adding /var/lib/live/debconfig/preseed/ to files section in manpage.
+  * Autogenerating preseed example file from debconf files.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 28 May 2013 14:32:56 +0200
+
+live-debconfig (4.0~a22-1) unstable; urgency=low
+
+  [ chals ]
+  * Updating dates in the man pages.
+  * Updating Catalan translation of man pages.
+  * Updating French translation of man pages.
+  * Updating Spanish translation of man pages.
+
+  [ Daniel Baumann ]
+  * Shortening comments about creating device nodes.
+  * Starting with /dev/tty0 for systemd instead of tty1.
+  * Removing existing symlinks for systemd tty service files.
+  * Adding service handling for systemd containers.
+  * Updating German manpage translations.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 19 Apr 2013 15:55:17 +0200
+
+live-debconfig (4.0~a21-1) unstable; urgency=low
+
+  * Debranding package for derivatives.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 01 Apr 2013 08:37:43 +0200
+
+live-debconfig (4.0~a20-1) unstable; urgency=low
+
+  * Removing all references to my old email address.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 10 Mar 2013 22:30:28 +0100
+
+live-debconfig (4.0~a19-1) unstable; urgency=low
+
+  * Adding example preseed file.
+  * Adding single local key for root and users.
+  * Correcting spelling typos, thanks to Adam D. Barratt <adam@adam-
+    barratt.org.uk>.
+  * Adding multiple local keys for root and users.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 10 Mar 2013 19:16:15 +0100
+
+live-debconfig (4.0~a18-1) unstable; urgency=low
+
+  * Populating new getty entries in sysvinit script on progress-linux with
+    the --no-hostname option.
+  * Adding systemd script for lxc support (Closes: #604631).
+  * Renumbering scripts.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sat, 09 Feb 2013 00:44:27 +0100
+
+live-debconfig (4.0~a17-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Correcting package description in example packaging.
+
+  [ Tom Jampen ]
+  * Correcting line break and indentation in example package copyright
+    file.
+
+  [ Daniel Baumann ]
+  * Adding support for setting users login shell in passwd script.
+  * Setting home by default also for multi-user creation.
+  * Setting default shell automatically to bash.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 31 Jan 2013 09:13:02 +0100
+
+live-debconfig (4.0~a16-1) unstable; urgency=low
+
+  * Dropping dpkg compression level.
+  * Correcting spelling typos in changelog to make lintian happy.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 25 Jan 2013 13:24:03 +0100
+
+live-debconfig (4.0~a15-1) unstable; urgency=low
+
+  * Changing preseeding of script names such that the exact filename
+    (consisting of full path, four-digit prefix, and name) doesn't have to
+    be specified, but rather the name of the script only.
+  * Avoiding double-empty lines as initial separator in
+    /etc/network/interfaces.
+  * Using --user-group in passwd script for useradd by default.
+  * Avoid failing in passwd if groups the user should be added to do not
+    (yet) exist.
+  * Avoid failing in passwd if gid for a group the user should be added to
+    does not (yet) exist.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 18 Jan 2013 20:40:33 +0100
+
+live-debconfig (4.0~a14-1) unstable; urgency=low
+
+  * Removing some no longer needed grep calls to filter out templates from
+    debconf scripts loops.
+  * Correcting --nodebconfig parameter handling.
+  * Correcting --debconfig parameter handling.
+  * Also account for no script selection in multiselect dialog.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 18 Jan 2013 15:19:29 +0100
+
+live-debconfig (4.0~a13-1) unstable; urgency=low
+
+  * Updating year in all copyright notices.
+  * Updating manpage year handling for 2013.
+  * Removing check if the package is installed in the ferm script as there
+    is apparently no good way of doing a two stage install (first unpack
+    packages, second run maintainer scripts) within lxc-debconfig yet
+    where we run live-debconfig before installing packages.
+  * Cleaning up temporary file in ferm script.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 18 Jan 2013 12:21:32 +0100
+
+live-debconfig (4.0~a12-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Adding simple script for ferm.
+  * Stripping away commas after scripts have been multiselected.
+  * Bailout early in ferm script if system has no ferm installed.
+  * Renumbering scripts.
+  * Prefixing all network related fields in ifupdown script with ipv4 in
+    preparation for ipv6 support.
+  * Adding script for passwd.
+  * Renumbering scripts.
+  * Updating branding in various cases to make it harmonize with the rest
+    of the live packages.
+  * Correcting spelling typo in bug script.
+  * Extending passwd script to set the root password.
+  * Extending passwd script to create a user account.
+  * Adding support for multiple user creation at the same time in passwd
+    script.
+  * Adding live-debconfig-get-selections for easy output of the local
+    debconf database.
+  * Adding live-debconfig-set-selections for easy input into the local
+    debconf database.
+  * Adding references to live-debconfig-get-selections and live-debconfig-
+    set-selections in live-debconfig manpage.
+
+  [ chals ]
+  * Updating Catalan translation of man pages.
+  * Updating Spanish translation of man pages.
+  * Updating French translation of man pages.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Sun, 23 Dec 2012 08:22:52 +0100
+
+live-debconfig (4.0~a11-1) unstable; urgency=low
+
+  * Show scripts in debconf multiselect dialog alphabetically sorted.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 06 Dec 2012 20:32:59 +0100
+
+live-debconfig (4.0~a10-1) unstable; urgency=low
+
+  * Adding dpkg-source local options.
+  * Tightening permissions on created debconf systemrc.
+  * Restructuring live-debconfig main script.
+  * Bailout early in sysvinit script if system is not using sysvinit in
+    the first place.
+  * Adding multiselect debconf dialog for script selection when being used
+    interactively.
+  * Also write script selection through command line into private debconf
+    database.
+  * Adding local-options for dpkg-source in live-debconfig-foobar example
+    package too.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 06 Dec 2012 20:18:08 +0100
+
+live-debconfig (4.0~a9-1) unstable; urgency=low
+
+  * Adding hostname to /etc/hosts when using dhcp or no network, nost just
+    when using static addresses only.
+  * Add powerfail entries for lxc-shutdown in sysvinit script.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 26 Nov 2012 21:21:40 +0100
+
+live-debconfig (4.0~a8-1) unstable; urgency=low
+
+  * Updating defaults in hostname script for newer progress-linux
+    versions.
+  * Adding stub of an example packaging for customization purposes
+    (analog to live-config).
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Mon, 12 Nov 2012 15:49:21 +0100
+
+live-debconfig (4.0~a7-1) unstable; urgency=low
+
+  * Updating to standards version 3.9.4.
+  * Updating package descriptions.
+  * Adding support for mtu values in ifupdown script.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Tue, 23 Oct 2012 14:55:43 +0200
+
+live-debconfig (4.0~a6-1) unstable; urgency=low
+
+  * Adding support for post-up commands in ifupdown script.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 20 Sep 2012 14:17:58 +0200
+
+live-debconfig (4.0~a5-1) unstable; urgency=low
+
+  * Repeating debconf systemrc variable in all scripts to ease
+    standalone testing.
+  * Correcting typo when reading from unprocessed instead of processed
+    inittab in sysvinit script.
+  * Adding the other language translations for automatic date
+    conversion.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Wed, 22 Aug 2012 09:55:31 +0200
+
+live-debconfig (4.0~a4-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Harmonizing script descriptions in live-debconfig manpage.
+
+  [ chals ]
+  * Updating the Spanish translation of two strings.
+  * Adding initial French translation for the current version.
+  * Adding initial Catalan translation for the current version.
+
+  [ Daniel Baumann ]
+  * Harmonizing po file headers.
+  * Correcting spelling typo in db_get call of the ifupdown script.
+  * Correcting /etc/default/hwclock handling in util-linux script for
+    cases where it was locally removed.
+  * Correcting version check of util-linux in util-linux script.
+  * Adding whitespace separaters in generated resolv.conf in ifupdown
+    script.
+  * Only reading existing nameserver settings in ifupdown script from
+    /etc/resolv.conf if the file is existing.
+  * Prepeding scripts execution with custom debconf systemrc to avoid
+    needing to export the variable to make it work.
+  * Removing default values from debconf templates since defaults are
+    derived from scripts automatically and independently.
+  * Adding a workaround in ifupdown script when reading defaults for
+    nameserver addresses from resolv.conf to get rid of newlines as
+    debconf can not handle multiline return values in assignments.
+  * Evening out whitespace separation in ifupdown script when generating
+    /etc/network/interfaces.
+  * Correcting db_setttile typo in ifupdown script.
+  * Correcting db_input typo in ifupdown script.
+  * Also removing /var/lib/live on purge if empty.
+  * Replacing /bin/true symlinks with an empty initscript to fake LSB
+    headers in sysvinit script.
+  * Replacing test for stop links in sysvinit script with ls to match on
+    wildcards.
+  * Completing insserv and update-rc.d silencing in sysvinit script.
+
+ -- Daniel Baumann <daniel.baumann@progress-technologies.net>  Fri, 17 Aug 2012 16:51:10 +0200
+
+live-debconfig (4.0~a3-1) unstable; urgency=low
+
+  * Reworking disabling and removal of sysvinit services in a non-
+    hardcoded and upgrade safe way.
+  * Removing start and stop links for disabled services when reverting
+    lxc changes in sysvinit script.
+  * Adding util-linux script for setting hwclock options.
+  * Making loopback interface in ifupdown script configurable.
+  * Renaming nameserver preseedings to nameserver-addresses in
+    preparation for additional nameserver preseedings.
+  * Making the 'domain', 'search', and 'options' options available in
+    ifupdown script.
+  * Making file operations in hostname script atomic.
+  * Making file operations in ifupdown script atomic.
+  * Making file operations in sysvinit script atomic.
+  * Making file operations in util-linux script atomic.
+  * Making file operations in selinux script atomic.
+  * Respecting pre-existing /etc/resolv.conf for nameserver settings in
+    ifupdown script.
+  * Adding some todo notes to ifupdown script.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 16 Aug 2012 15:43:09 +0200
+
+live-debconfig (4.0~a2-1) unstable; urgency=low
+
+  [ Daniel Baumann ]
+  * Adding missing space in live-debconfig/sysvinit/lxc-disable-services
+    default, thanks to Jon Severinsson <jon@severinsson.net>.
+  * Also adding kmod to disabled services within lxc containers in
+    sysvinit script.
+
+  [ Jon Severinsson ]
+  * Remove, rather than disable, the umount* initscripts in lxc
+    containers.
+
+  [ Daniel Baumann ]
+  * Explicitly listing umountfs and umountroot for remove in sysvinit
+    script to be on the conservative side, instead of using 'umount*'
+    pattern to match them.
+
+  [ Jon Severinsson ]
+  * Add mountkernfs.sh and mountall.sh to the list of services disabled
+    in lxc containers.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Fri, 10 Aug 2012 23:08:14 +0200
+
+live-debconfig (4.0~a1-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Daniel Baumann <mail@daniel-baumann.ch>  Thu, 02 Aug 2012 22:23:52 +0200

@@ -1,0 +1,87 @@
+.\" live-debconfig(7) - System Configuration Components
+.\" Copyright (C) 2006-2014 Daniel Baumann <mail@daniel-baumann.ch>
+.\"
+.\" This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+.\" This is free software, and you are welcome to redistribute it
+.\" under certain conditions; see COPYING for details.
+.\"
+.\"
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH LIVE\-DEBCONFIG 7 2014\-07\-22 4.0~alpha35\-1 "Proyecto Live Systems"
+
+.SH NOMBRE
+\fBlive\-debconfig\fP \- Componentes de Configuración del Sistema
+
+.SH DESCRIPCIÓN
+\fBlive\-debconfig\fP contiene los componentes que configuran un sistema Live
+durante el proceso de construcción (live\-build).
+
+.SH COMPONENTES
+\fBlive\-debconfig\fP actualmente cuenta con los siguientes componentes en
+/lib/live/debconfig.
+
+.IP \fBhostname\fP 4
+establece el nombre del anfitrión del sistema (/etc/hostname), ver
+\fIlive\-debconfig_hostname\fP(5).
+.IP \fBifupdown\fP 4
+establece la configuración de red del sistema (/etc/network/interfaces,
+/etc/resolv.conf, /etc/hosts), ver \fIlive\-debconfig_ifupdown\fP(5).
+.IP \fBsysvinit\fP 4
+configura el tipo de sistema para los Linux Containers, LXC (/etc/inittab) y
+desactiva algunos servicios que no son necesarios para LXC, ver
+\fIlive\-debconfig_sysvinit\fP(5).
+.IP \fButil\-linux\fP 4
+configura el acceso al reloj del sistema (/etc/default/hwclock), ver
+\fIlive\-debconfig_util\-linux\fP(5).
+.IP \fBselinux\fP 4
+activa o desactiva selinux (/selinux), ver \fIlive\-debconfig_selinux\fP(5).
+.IP \fBopenssh\-server\fP 4
+recrea las claves del anfitrión del openssh\-server (/etc/ssh/ssh_host_key*),
+ver \fIlive\-debconfig_openssh\-server\fP(5).
+
+.SH HERRAMIENTAS
+\fBlive\-debconfig\fP actualmente cuenta con las siguientes herramientas
+adicionales.
+
+.IP \fBlive\-debconfig\-get\-selections\fP 4
+muestra el contenido de la base de datos debconf de live\-debconfig(7)
+.IP \fBlive\-debconfig\-set\-selections\fP 4
+inserta nuevos valores en la base de datos debconf de live\-debconfig(7)
+
+.SH FICHEROS
+.IP \fB/etc/live/debconfig.conf\fP 4
+.IP \fB/etc/live/debconfig/*\fP 4
+.IP \fB/lib/live/debconfig.sh\fP 4
+.IP \fB/lib/live/debconfig/\fP 4
+.IP \fB/var/lib/live/debconfig/\fP 4
+.IP \fB/var/lib/live/debconfig/preseed/\fP 4
+.IP \fB/var/log/live/debconfig.log\fP 4
+
+.SH "VER TAMBIÉN"
+\fIlive\-boot\fP(7)
+.PP
+\fIlive\-build\fP(7)
+.PP
+\fIlive\-config\fP(7)
+.PP
+\fIlive\-tools\fP(7)
+
+.SH "PÁGINA WEB"
+Se puede encontrar más información acerca de live\-debconfig y el proyecto
+Live Systems en su página principal en <\fIhttp://live\-systems.org/\fP>
+y en el manual en <\fIhttp://live\-systems.org/manual/\fP>.
+
+.SH ERRORES
+Se puede notificar los fallos enviando un informe de errores sobre el
+paquete live\-debconfig en el sistema de seguimiento de errores en
+<\fIhttp://bugs.debian.org/\fP> o escribiendo un mensaje a la lista de
+correo de Live Systems a la dirección
+<\fIdebian\-live@lists.debian.org\fP>.
+
+.SH AUTOR
+live\-debconfig fue escrito por Daniel Baumann
+<\fImail@daniel\-baumann.ch\fP>.

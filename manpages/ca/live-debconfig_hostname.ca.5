@@ -1,0 +1,91 @@
+.\" live-debconfig(7) - System Configuration Components
+.\" Copyright (C) 2006-2014 Daniel Baumann <mail@daniel-baumann.ch>
+.\"
+.\" This program comes with ABSOLUTELY NO WARRANTY; for details see COPYING.
+.\" This is free software, and you are welcome to redistribute it
+.\" under certain conditions; see COPYING for details.
+.\"
+.\"
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH LIVE\-DEBCONFIG 5 2014\-07\-22 4.0~alpha35\-1 "Projecte Live Systems"
+
+.SH NOM
+\fBlive\-debconfig\fP \- component hostname
+
+.SH DESCRIPCIÓ
+\fBlive\-debconfig\fP conté els components que configuren un sistema Live durant
+el procés de construcció (live\-build).
+.PP
+Aquest component estableix el nom del amfitrió del sistema al fitxer
+/etc/hostname
+
+.SH PRECONFIGURACIÓ
+El component hostname actualment inclou les opcions de preconfiguració
+següents.
+
+.IP "\fBlive\-debconfig live\-debconfig/hostname/hostname string\fP \fIHOSTNAME\fP" 8
+Permet establir el nom d'amfitrió del sistema.
+.br
+
+.br
+Si no hi ha cap valor preconfigurat, es suggereix un valor per defecte en un
+prompt de debconf. Si no s'introdueix cap valor al prompt de debconf,
+s'utilitza el valor per defecte. El valor per defecte es determina de forma
+automàtica:
+.br
+
+.br
+  1. \fIHOSTNAME\fP s'estableix al fitxer /etc/hostname si existeix i no és buit.
+.br
+
+.br
+  2. \fIHOSTNAME\fP s'estableix a l'ID del distribuïdor, com al fitxer /etc/os\-release, si existeix i no és buit.
+.br
+
+.br
+  3. \fIHOSTNAME\fP s'estableix a l'ID del distribuïdor, com al programa \fIlsb_release\fP(1) si està instal·lat in no és buit.
+.br
+
+.br
+  4. \fIHOSTNAME\fP s'estableix a \fBprogress\-linux\fP si existeix el fitxer /etc/progress\-linux_version
+.br
+
+.br
+  5. \fIHOSTNAME\fP s'estableix a \fBdebian\fP com a forma alternativa.
+.br
+
+.br
+\fBAdvertència:\fP el nou nom d'amfitrió s'afegirà al fitxer /etc/hostname
+sobreescrivint qualsevol contingut anterior sense previ avís o còpia de
+seguretat.
+.br
+
+.SH "VEURE TAMBÉ"
+\fIlive\-boot\fP(7)
+.PP
+\fIlive\-build\fP(7)
+.PP
+\fIlive\-config\fP(7)
+.PP
+\fIlive\-debconfig\fP(7)
+.PP
+\fIlive\-tools\fP(7)
+
+.SH "PÀGINA WEB"
+Es pot trobar més informació sobre live\-debconfig i el projecte Live Systems
+a la pàgina web <\fIhttp://live\-systems.org/\fP> i al manual a
+<\fIhttp://live\-systems.org/manual/\fP>.
+
+.SH ERRORS
+Es pot informar dels errors mitjançant la presentació d'un informe sobre el
+paquet live\-debconfig al Sistema de seguiment d'errors a
+<\fIhttp://bugs.debian.org/\fP> o escrivint un correu a la llista de
+correu de Live Systems a <\fIdebian\-live@lists.debian.org\fP>.
+
+.SH AUTOR
+live\-debconfig va ser escrit per Daniel Baumann
+<\fImail@daniel\-baumann.ch\fP>.
